@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evocortex.irDirectBinding", "Evocortex.irDirectBinding\Evocortex.irDirectBinding.csproj", "{B3271B8B-68E1-4565-921B-DAC9CFA9EE78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evocortex.irDirectBinding.Example", "Evocortex.irDirectBinding.Example\Evocortex.irDirectBinding.Example.csproj", "{E4C1665B-C21A-4C82-86F7-FA10403BFE6D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3271B8B-68E1-4565-921B-DAC9CFA9EE78}.Debug|x86.ActiveCfg = Debug|x86
+		{B3271B8B-68E1-4565-921B-DAC9CFA9EE78}.Debug|x86.Build.0 = Debug|x86
+		{B3271B8B-68E1-4565-921B-DAC9CFA9EE78}.Release|x86.ActiveCfg = Release|x86
+		{B3271B8B-68E1-4565-921B-DAC9CFA9EE78}.Release|x86.Build.0 = Release|x86
+		{E4C1665B-C21A-4C82-86F7-FA10403BFE6D}.Debug|x86.ActiveCfg = Debug|x86
+		{E4C1665B-C21A-4C82-86F7-FA10403BFE6D}.Debug|x86.Build.0 = Debug|x86
+		{E4C1665B-C21A-4C82-86F7-FA10403BFE6D}.Release|x86.ActiveCfg = Release|x86
+		{E4C1665B-C21A-4C82-86F7-FA10403BFE6D}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BB60381B-9A20-4991-A6ED-F2DA68BC9470}
+	EndGlobalSection
+EndGlobal
