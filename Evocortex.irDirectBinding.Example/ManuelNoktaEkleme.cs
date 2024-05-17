@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml.Schema;
 
 namespace Evocortex.irDirectBinding.Example
@@ -27,16 +28,6 @@ namespace Evocortex.irDirectBinding.Example
 
             if (textX<yeniForm.Size.Width && textY< yeniForm.Size.Height)
             {
-                yeniForm.i++;
-                Point point = new Point(textX, textY);
-                yeniForm.arr[yeniForm.i] = point;
-
-                Label lbl = new Label();
-                lbl.Dock = DockStyle.Top;
-                lbl.Text = "X:" + Convert.ToInt32(txtX.Text) + " - Y:" + Convert.ToInt32(txtY.Text);
-                yeniForm.flowLayoutPanel1.Controls.Add(lbl);
-                yeniForm.per = true;
-
                 Close();
             }
             else

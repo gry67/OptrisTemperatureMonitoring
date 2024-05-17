@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Evocortex.irDirectBinding.Example
 {
@@ -31,24 +32,28 @@ namespace Evocortex.irDirectBinding.Example
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.btnDursun = new System.Windows.Forms.Button();
             this.lblSicaklik = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.lblmaxSicaklik = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox1.Location = new System.Drawing.Point(37, 30);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(463, 337);
+            this.pictureBox1.Size = new System.Drawing.Size(474, 474);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
@@ -64,7 +69,7 @@ namespace Evocortex.irDirectBinding.Example
             this.btnDursun.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnDursun.Location = new System.Drawing.Point(0, 63);
             this.btnDursun.Name = "btnDursun";
-            this.btnDursun.Size = new System.Drawing.Size(815, 37);
+            this.btnDursun.Size = new System.Drawing.Size(1364, 37);
             this.btnDursun.TabIndex = 3;
             this.btnDursun.UseVisualStyleBackColor = true;
             this.btnDursun.Click += new System.EventHandler(this.btnDursun_Click);
@@ -84,22 +89,15 @@ namespace Evocortex.irDirectBinding.Example
             this.panel1.Controls.Add(this.lblSicaklik);
             this.panel1.Controls.Add(this.btnDursun);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 373);
+            this.panel1.Location = new System.Drawing.Point(0, 600);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(815, 100);
+            this.panel1.Size = new System.Drawing.Size(1364, 100);
             this.panel1.TabIndex = 5;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(489, 23);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(273, 193);
-            this.flowLayoutPanel1.TabIndex = 6;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(467, 335);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(662, 532);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(183, 32);
             this.button1.TabIndex = 7;
@@ -107,22 +105,50 @@ namespace Evocortex.irDirectBinding.Example
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // chart1
+            // 
+            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea7.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea7);
+            legend7.Name = "Legend1";
+            this.chart1.Legends.Add(legend7);
+            this.chart1.Location = new System.Drawing.Point(678, 12);
+            this.chart1.Name = "chart1";
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Legend = "Legend1";
+            series7.Name = "Series1";
+            this.chart1.Series.Add(series7);
+            this.chart1.Size = new System.Drawing.Size(674, 514);
+            this.chart1.TabIndex = 8;
+            this.chart1.Text = "chart1";
+            // 
+            // lblmaxSicaklik
+            // 
+            this.lblmaxSicaklik.AutoSize = true;
+            this.lblmaxSicaklik.Location = new System.Drawing.Point(971, 548);
+            this.lblmaxSicaklik.Name = "lblmaxSicaklik";
+            this.lblmaxSicaklik.Size = new System.Drawing.Size(44, 16);
+            this.lblmaxSicaklik.TabIndex = 9;
+            this.lblmaxSicaklik.Text = "label1";
+            // 
             // YeniForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(815, 473);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1364, 700);
+            this.Controls.Add(this.lblmaxSicaklik);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
             this.Name = "YeniForm";
             this.Text = "TemizForm";
             this.Load += new System.EventHandler(this.YeniForm_Load);
-            this.Resize += new System.EventHandler(this.YeniForm_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -133,7 +159,8 @@ namespace Evocortex.irDirectBinding.Example
         private System.Windows.Forms.Button btnDursun;
         private Label lblSicaklik;
         private Panel panel1;
-        public FlowLayoutPanel flowLayoutPanel1;
         private Button button1;
+        private Chart chart1;
+        private Label lblmaxSicaklik;
     }
 }

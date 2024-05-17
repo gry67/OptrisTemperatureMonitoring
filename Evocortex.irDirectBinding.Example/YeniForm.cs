@@ -7,8 +7,11 @@ using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Evocortex.irDirectBinding.Example
 {
@@ -16,150 +19,171 @@ namespace Evocortex.irDirectBinding.Example
     {
         public FormMain mainForm;
         public bool control = false;
+        public PaintEventArgs paintEventArgs;
+
+        public int CircleCount { get; set; }
+
+
         public YeniForm()
         {
             InitializeComponent();
+
         }
+
+        public void AddSeries()
+        {
+            Series s = new Series();
+            s.Legend = "Legend1";
+            s.ChartType = SeriesChartType.Line;
+            chart1.Series.Add(s);
+        }
+
+
+        public int KoordinatOranlama(int mouseX, int mouseY)
+        {
+            //var bigWidth = pictureBox1.Width;
+            //var bigHeight = pictureBox1.Height;
+            //int smallWidth = 80;
+            //int smallHeight = 80;
+            //int smallX = (int)((double)mouseX / bigWidth * smallWidth);
+            //int smallY = (int)((double)mouseY / bigHeight * smallHeight);
+
+            //var scaleX = 80 / pictureBox1.Width;
+            //var scaleY = 80 / pictureBox1.Height;
+
+            //var smallX = mouseX * scaleX;
+            //var smallY = mouseY * scaleY;
+
+            int kacinciSutun = 0;
+            int kacinciSatir = 0;
+
+            for (int i = 0; i <= mouseX;i+=6)
+            {
+                kacinciSutun++;
+            }
+            for (int i = 0; i <= mouseY;i+=6)
+            {
+                kacinciSatir++;
+            }
+
+            return (mainForm.termalGoruntu.ThermalImage[kacinciSutun, kacinciSatir]- 1000) / 10;
+        }
+
+        public MaxTemperatureAndCoordinateDto MaxTemperatureCoordinate()
+        {
+            int maxTemperature = 0;
+            int lastRow = 0;
+            int lastColumn = 0;
+
+            for (int row = 0; row < 80; row++)
+            {
+                for (int column = 0; column < 80; column++)
+                {
+                    int value = (mainForm.termalGoruntu.ThermalImage[row, column]-1000)/10;
+                    if (value>=maxTemperature)
+                    {
+                        maxTemperature = value;
+                        lastRow = row;
+                        lastColumn = column;
+                    }
+                }
+            }
+
+            double pixelsPerUnitX = (double)pictureBox1.Width / 80;
+            double pixelsPerUnitY = (double)pictureBox1.Height / 80;
+
+            int yeniX = (int)(lastColumn * pixelsPerUnitX); 
+            int yeniY = (int)(lastRow * pixelsPerUnitY);
+            return new MaxTemperatureAndCoordinateDto(maxTemperature, new Point(yeniX, yeniY));
+        }
+
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             pictureBox1.Image = mainForm._pbPaletteImage.Image;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
-
+        
         private void YeniForm_Load(object sender, EventArgs e)
         {
-            //pictureBox1.Width = this.Size.Width;
-            //pictureBox1.Height = this.Size.Height-100;
             timer1.Start();
-        }
-
-        private void YeniForm_Resize(object sender, EventArgs e)
-        {
-            //lblDursun.Location = new Point((ClientSize.Width - lblDursun.Width) / 2,ClientSize.Height-50);
-            //pictureBox1.Size = this.Size;
-            //pictureBox1.Height = this.Size.Height - 100;
-
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            var bigWidth = pictureBox1.Width;
-            var bigHeight = pictureBox1.Height;
-            int smallWidth = 80;
-            int smallHeight = 80;
-            var bigX = e.X;
-            var bigY = e.Y;
-
-            int smallX = (int)((double)bigX / bigWidth * smallWidth);
-            int smallY = (int)((double)bigY / bigHeight * smallHeight);
-
-            var sicaklik = ((double)mainForm.termalGoruntu.ThermalImage[smallX, smallY]-1000)/10;
-
+            var sicaklik = KoordinatOranlama(e.X, e.Y);
             lblSicaklik.Text = $"Sıcaklık:{sicaklik}";
         }
         
+
+
         public Point[] arr = new Point[100];
         public int i = 0;
         public bool per = false;
+        
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            ++i;
             arr[i] = e.Location;
             per = true;
-
-            Label lbl = new Label();
-            lbl.Dock = DockStyle.Top;
-            lbl.Text = "X:" + e.X + " - Y:" + e.Y;
-            flowLayoutPanel1.Controls.Add(lbl);
+            ++CircleCount;
+            if (CircleCount != 1)
+            {
+                AddSeries(); 
+            }
+            ++i;
         }
 
-        public PaintEventArgs paintEventArgs;
+
         public void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            paintEventArgs = e;
+            Graphics g = e.Graphics;
+            Pen pen = new Pen(BackColor, 2);
+            Pen yesilKare = new Pen(Color.Green, 5);
+            
+            var data = MaxTemperatureCoordinate();
+            Point nokta = data.point;
+            lblmaxSicaklik.Text = data.MaxTemperature.ToString();
+            
+            g.DrawRectangle(yesilKare, nokta.X, nokta.Y, 15, 15);
+
             if (per)
             {
-                //Graphics g = e.Graphics;
-                //Pen pen = new Pen(BackColor, 2);
-                //g.DrawEllipse(pen, arr[i].X, arr[i].Y, 20, 20);
-
-                //    per = false;    
-
-                foreach (var item in arr.Where(x=>x.Y != 0 && x.X != 0).ToList())
+                foreach (var item in arr.Where(x => x.Y != 0 && x.X != 0).ToList())
                 {
-                    Graphics g = e.Graphics;
-                    Pen pen = new Pen(BackColor, 2);
                     g.DrawEllipse(pen, item.X, item.Y, 20, 20);
                 }
             }
+
+            if (per)
+            {
+                for (int i = 0; i < CircleCount; i++)
+                {
+                    var sicaklik = KoordinatOranlama(Convert.ToInt32(arr[i].X), Convert.ToInt32(arr[i].Y));
+                    chart1.Series[i].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik.ToString());
+                }
+                //var sicaklik = SicaklikOranlama(Convert.ToInt32(arr[0].X), Convert.ToInt32(arr[0].Y));
+                //chart1.Series[0].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik.ToString());
+            }
+            paintEventArgs = e;
         }
         
-        private void btnDursun_Click(object sender, EventArgs e)
-        {
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             ManuelNoktaEkleme form = new ManuelNoktaEkleme(this);
             form.Show();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //private thermalDataDto GryYontemi(MouseEventArgs e)
-        //{
-        //    int bigWidth = pictureBox1.Width;
-        //    int bigHeight = pictureBox1.Height;
-
-
-
-        //    var bigX = e.X;
-        //    var bigY = e.Y;
-
-        //    double ratioX = (double)bigWidth / 80.0;
-        //    double ratioY = (double)bigHeight / 80.0;
-        //    int thermalImageX = (int)(bigX / ratioX);
-        //    int thermalImageY = (int)(bigY / ratioY);
-        //    var grySonuc = ((double)mainForm.termalGoruntu.ThermalImage[thermalImageX, thermalImageY] - 1000) / 10;
-
-        //    return null;
-        //}
-
-
-
-
-
-
-
-        ////var sıcaklık = mainForm.termalGoruntu.ThermalImage[,];
-
-        //int pictureBoxWidth = pictureBox1.Width;
-        //int pictureBoxHeight = pictureBox1.Height;
-
-        //normalKooordinatX = e.X;
-        //    normalKooordinatY = e.Y;
-
-        //    var mouseX = e.X;
-        //var mouseY = e.Y;
-
-        //double ratioX = (double)pictureBoxWidth / 80.0;
-        //double ratioY = (double)pictureBoxHeight / 80.0;
-        //int thermalImageX = (int)(mouseX / ratioX);
-        //int thermalImageY = (int)(mouseY / ratioY);
-        //var sonuc = ((double)mainForm.termalGoruntu.ThermalImage[thermalImageX, thermalImageY] - 1000) / 10;
+        private void btnDursun_Click(object sender, EventArgs e)
+        {
+            var x = pictureBox1.Size.Width;
+            var y = pictureBox1.Size.Height;
+            MessageBox.Show($"X boyutu {x} Y boyutu {y}");
+        }
     }
+
+
+
 
     public static class GraphicsExtensions
     {
@@ -179,3 +203,46 @@ namespace Evocortex.irDirectBinding.Example
     }
 
 }
+
+
+//public int SicaklikOranlama2(int mouseX, int mouseY)
+//{
+//    double pixelsPerUnitX = (double)80 / pictureBox1.Width;
+//    double pixelsPerUnitY = (double)80 / pictureBox1.Height;
+//    int yeniX = (int)(mouseX * pixelsPerUnitX);
+//    int yeniY = (int)(mouseY * pixelsPerUnitY);
+//    return ((int)mainForm.termalGoruntu.ThermalImage[yeniX, yeniY] - 1000) / 10;
+//}
+
+
+
+//if (chart1.Series[0].Points.Count >100)
+//{
+//    chart1.Series[0].Points.RemoveAt(0);
+//}
+
+//if (CircleCount ==2 )
+//{
+//    if (!added)
+//    {
+//        Series s = new Series();
+//        added = true;
+//        s.Legend = "Legend1";
+//        s.ChartType = SeriesChartType.Line;
+
+//        chart1.Series.Add(s);
+//    }
+//}
+
+//if (CircleCount > 1)
+//{
+//    var sicaklik2 = SicaklikOranlama(Convert.ToInt32(arr[1].X), Convert.ToInt32(arr[1].Y));
+
+//    chart1.Series[1].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik2.ToString());
+
+
+//    if (chart1.Series[1].Points.Count > 100)
+//    {
+//        chart1.Series[1].Points.RemoveAt(0);
+//    }
+//}

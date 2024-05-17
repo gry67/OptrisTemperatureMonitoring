@@ -66,8 +66,10 @@ namespace Evocortex.irDirectBinding.Example {
                     }
                 }
 
+
+
                 //Calculates mean value: meanSum / pixelCount
-                mean /= rows * columns;
+                mean /= (rows) * (columns);
 
                 //convert to real temperature value
                 mean = (mean - 1000.0) / 10.0;
@@ -110,6 +112,18 @@ namespace Evocortex.irDirectBinding.Example {
 
             yeniForm.mainForm = this;
             yeniForm.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var img = _irDirectInterface.GetThermalPaletteImage();
+
+            //var data =  img.ThermalImage[100, 100];
+
+            var d1 =  img.ThermalImage.GetUpperBound(0);
+             var d2 =  img.ThermalImage.GetUpperBound(1);
+
+            MessageBox.Show(d1+" "+ d2);
         }
     }
 }
