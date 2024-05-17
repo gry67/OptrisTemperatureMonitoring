@@ -121,7 +121,7 @@ namespace Evocortex.irDirectBinding.Example {
             //var data =  img.ThermalImage[100, 100];
 
             var d1 =  img.ThermalImage.GetUpperBound(0);
-             var d2 =  img.ThermalImage.GetUpperBound(1);
+            var d2 =  img.ThermalImage.GetUpperBound(1);
 
             MessageBox.Show(d1+" "+ d2);
         }
