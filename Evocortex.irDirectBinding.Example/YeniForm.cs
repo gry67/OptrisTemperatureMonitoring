@@ -41,18 +41,7 @@ namespace Evocortex.irDirectBinding.Example
 
         public int KoordinatOranlama(int mouseX, int mouseY)
         {
-            //var bigWidth = pictureBox1.Width;
-            //var bigHeight = pictureBox1.Height;
-            //int smallWidth = 80;
-            //int smallHeight = 80;
-            //int smallX = (int)((double)mouseX / bigWidth * smallWidth);
-            //int smallY = (int)((double)mouseY / bigHeight * smallHeight);
 
-            //var scaleX = 80 / pictureBox1.Width;
-            //var scaleY = 80 / pictureBox1.Height;
-
-            //var smallX = mouseX * scaleX;
-            //var smallY = mouseY * scaleY;
 
             int kacinciSutun = 0;
             int kacinciSatir = 0;
@@ -162,8 +151,6 @@ namespace Evocortex.irDirectBinding.Example
                     var sicaklik = KoordinatOranlama(Convert.ToInt32(arr[i].X), Convert.ToInt32(arr[i].Y));
                     chart1.Series[i].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik.ToString());
                 }
-                //var sicaklik = SicaklikOranlama(Convert.ToInt32(arr[0].X), Convert.ToInt32(arr[0].Y));
-                //chart1.Series[0].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik.ToString());
             }
             paintEventArgs = e;
         }
@@ -203,6 +190,20 @@ namespace Evocortex.irDirectBinding.Example
     }
 
 }
+
+
+//var bigWidth = pictureBox1.Width;
+//var bigHeight = pictureBox1.Height;
+//int smallWidth = 80;
+//int smallHeight = 80;
+//int smallX = (int)((double)mouseX / bigWidth * smallWidth);
+//int smallY = (int)((double)mouseY / bigHeight * smallHeight);
+
+//var scaleX = 80 / pictureBox1.Width;
+//var scaleY = 80 / pictureBox1.Height;
+
+//var smallX = mouseX * scaleX;
+//var smallY = mouseY * scaleY;
 
 
 //public int SicaklikOranlama2(int mouseX, int mouseY)
