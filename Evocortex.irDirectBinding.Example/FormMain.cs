@@ -14,7 +14,7 @@ namespace Evocortex.irDirectBinding.Example {
     public partial class FormMain : Form {
 
         //Instance of IrDirectInterface
-        IrDirectInterface _irDirectInterface;
+        public IrDirectInterface _irDirectInterface;
         //Thread for pulling images
         Thread _imageGrabberThread;
         bool _grabImages = true;
@@ -75,7 +75,7 @@ namespace Evocortex.irDirectBinding.Example {
                 mean = (mean - 1000.0) / 10.0;
 
                 //Invoke UI-Thread for update of ui
-                this.BeginInvoke((MethodInvoker)(() => {
+                this.BeginInvoke((MethodInvoker)(() =>  {
                     _pbPaletteImage.Image = images.PaletteImage;
                     _labTemp.Text = $"Mean temperature is {mean}";
                 }));

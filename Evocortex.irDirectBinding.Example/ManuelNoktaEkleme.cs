@@ -28,6 +28,7 @@ namespace Evocortex.irDirectBinding.Example
 
             if (textX<yeniForm.Size.Width && textY< yeniForm.Size.Height)
             {
+                yeniForm.AddLocationManual(textX, textY);
                 Close();
             }
             else

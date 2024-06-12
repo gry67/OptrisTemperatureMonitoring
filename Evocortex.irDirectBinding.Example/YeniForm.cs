@@ -20,9 +20,13 @@ namespace Evocortex.irDirectBinding.Example
         public FormMain mainForm;
         public bool control = false;
         public PaintEventArgs paintEventArgs;
-
         public int CircleCount { get; set; }
-
+        
+        //Seri eklemek için
+        public Point[] arr = new Point[100];
+        public int i = 0;
+        public bool per = false;
+        Pen yesilKare = new Pen(Color.Green, 5);
 
         public YeniForm()
         {
@@ -30,6 +34,8 @@ namespace Evocortex.irDirectBinding.Example
 
         }
 
+
+        //Metotlar
         public void AddSeries()
         {
             Series s = new Series();
@@ -37,7 +43,6 @@ namespace Evocortex.irDirectBinding.Example
             s.ChartType = SeriesChartType.Line;
             chart1.Series.Add(s);
         }
-
 
         public int KoordinatOranlama(int mouseX, int mouseY)
         {
@@ -86,16 +91,68 @@ namespace Evocortex.irDirectBinding.Example
             return new MaxTemperatureAndCoordinateDto(maxTemperature, new Point(yeniX, yeniY));
         }
 
+        public void AddLocation(MouseEventArgs e)
+        {
+            arr[i] = e.Location;
+            per = true;
+            ++CircleCount;
+            AddSeries();
+            ++i;
+        }
 
+        public void AddLocationManual(int x, int y)
+        {
+            arr[i] = new Point(x, y);
+            per = true;
+            CircleCount++;
+
+            if (CircleCount != 1)
+            {
+                AddSeries();
+            }
+            ++i;
+        }
+
+        public void AddHottestPointToChartSeries1(MaxTemperatureAndCoordinateDto data)
+        {
+            lblmaxSicaklik.Text = "En Yüksek Sıcaklık: " + data.MaxTemperature.ToString();
+            chart1.Series[0].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), data.MaxTemperature);
+        }
+
+        public void AddDataToChartSeries()
+        {
+            for (int i = 1; i <= CircleCount; i++)
+            {
+                var sicaklik = KoordinatOranlama(Convert.ToInt32(arr[i].X), Convert.ToInt32(arr[i].Y));
+                chart1.Series[i].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik.ToString());
+            }
+        }
+
+        public void DrawEllipseAtCoordinates(Graphics g, Pen pen)
+        {
+            foreach (var item in arr.Where(x => x.Y != 0 && x.X != 0).ToList())
+            {
+                g.DrawEllipse(pen, item.X, item.Y, 20, 20);
+            }
+        }
+
+
+
+
+
+
+
+
+        //Eventler
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             pictureBox1.Image = mainForm._pbPaletteImage.Image;
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
-        
+
         private void YeniForm_Load(object sender, EventArgs e)
         {
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             timer1.Start();
         }
 
@@ -105,56 +162,40 @@ namespace Evocortex.irDirectBinding.Example
             lblSicaklik.Text = $"Sıcaklık:{sicaklik}";
         }
         
-
-
-        public Point[] arr = new Point[100];
-        public int i = 0;
-        public bool per = false;
-        
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            arr[i] = e.Location;
-            per = true;
-            ++CircleCount;
-            if (CircleCount != 1)
-            {
-                AddSeries(); 
-            }
-            ++i;
+            AddLocation(e);
         }
 
+        
 
         public void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             Pen pen = new Pen(BackColor, 2);
-            Pen yesilKare = new Pen(Color.Green, 5);
-            
+
             var data = MaxTemperatureCoordinate();
             Point nokta = data.point;
-            lblmaxSicaklik.Text = data.MaxTemperature.ToString();
+
+            AddHottestPointToChartSeries1(data);
             
             g.DrawRectangle(yesilKare, nokta.X, nokta.Y, 15, 15);
-
+            
             if (per)
             {
-                foreach (var item in arr.Where(x => x.Y != 0 && x.X != 0).ToList())
-                {
-                    g.DrawEllipse(pen, item.X, item.Y, 20, 20);
-                }
+                DrawEllipseAtCoordinates(g,pen);
             }
 
+
+            //arr'deki koordinatları alır 80x80'e oranlar ve veri girişi yapar
             if (per)
             {
-                for (int i = 0; i < CircleCount; i++)
-                {
-                    var sicaklik = KoordinatOranlama(Convert.ToInt32(arr[i].X), Convert.ToInt32(arr[i].Y));
-                    chart1.Series[i].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik.ToString());
-                }
+                AddDataToChartSeries();
             }
             paintEventArgs = e;
         }
         
+
         private void button1_Click(object sender, EventArgs e)
         {
             ManuelNoktaEkleme form = new ManuelNoktaEkleme(this);
@@ -163,13 +204,9 @@ namespace Evocortex.irDirectBinding.Example
 
         private void btnDursun_Click(object sender, EventArgs e)
         {
-            var x = pictureBox1.Size.Width;
-            var y = pictureBox1.Size.Height;
-            MessageBox.Show($"X boyutu {x} Y boyutu {y}");
+            mainForm._irDirectInterface.TriggerShutterFlag();
         }
     }
-
-
 
 
     public static class GraphicsExtensions

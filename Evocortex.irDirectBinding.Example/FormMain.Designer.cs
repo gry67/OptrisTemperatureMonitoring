@@ -23,6 +23,7 @@
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this._pbPaletteImage = new System.Windows.Forms.PictureBox();
             this._btnForceShutter = new System.Windows.Forms.Button();
             this._labTemp = new System.Windows.Forms.Label();
@@ -34,8 +35,9 @@
             // _pbPaletteImage
             // 
             this._pbPaletteImage.Location = new System.Drawing.Point(0, 0);
+            this._pbPaletteImage.Margin = new System.Windows.Forms.Padding(4);
             this._pbPaletteImage.Name = "_pbPaletteImage";
-            this._pbPaletteImage.Size = new System.Drawing.Size(188, 203);
+            this._pbPaletteImage.Size = new System.Drawing.Size(253, 250);
             this._pbPaletteImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this._pbPaletteImage.TabIndex = 0;
             this._pbPaletteImage.TabStop = false;
@@ -43,9 +45,10 @@
             // _btnForceShutter
             // 
             this._btnForceShutter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this._btnForceShutter.Location = new System.Drawing.Point(0, 238);
+            this._btnForceShutter.Location = new System.Drawing.Point(0, 293);
+            this._btnForceShutter.Margin = new System.Windows.Forms.Padding(4);
             this._btnForceShutter.Name = "_btnForceShutter";
-            this._btnForceShutter.Size = new System.Drawing.Size(276, 23);
+            this._btnForceShutter.Size = new System.Drawing.Size(368, 28);
             this._btnForceShutter.TabIndex = 1;
             this._btnForceShutter.Text = "Trigger Shutter";
             this._btnForceShutter.UseVisualStyleBackColor = true;
@@ -55,9 +58,10 @@
             // 
             this._labTemp.AutoSize = true;
             this._labTemp.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this._labTemp.Location = new System.Drawing.Point(0, 225);
+            this._labTemp.Location = new System.Drawing.Point(0, 277);
+            this._labTemp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labTemp.Name = "_labTemp";
-            this._labTemp.Size = new System.Drawing.Size(103, 13);
+            this._labTemp.Size = new System.Drawing.Size(118, 16);
             this._labTemp.TabIndex = 2;
             this._labTemp.Text = "Min: 0° at Max: 0° at";
             // 
@@ -66,18 +70,19 @@
             this._cmbPalette.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._cmbPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cmbPalette.FormattingEnabled = true;
-            this._cmbPalette.Location = new System.Drawing.Point(0, 204);
+            this._cmbPalette.Location = new System.Drawing.Point(0, 253);
+            this._cmbPalette.Margin = new System.Windows.Forms.Padding(4);
             this._cmbPalette.Name = "_cmbPalette";
-            this._cmbPalette.Size = new System.Drawing.Size(276, 21);
+            this._cmbPalette.Size = new System.Drawing.Size(368, 24);
             this._cmbPalette.TabIndex = 3;
             this._cmbPalette.SelectedIndexChanged += new System.EventHandler(this._cmbPalette_SelectedIndexChanged);
             // 
             // btnYeniForm
             // 
-            this.btnYeniForm.Location = new System.Drawing.Point(198, 72);
-            this.btnYeniForm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnYeniForm.Location = new System.Drawing.Point(264, 89);
+            this.btnYeniForm.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnYeniForm.Name = "btnYeniForm";
-            this.btnYeniForm.Size = new System.Drawing.Size(56, 19);
+            this.btnYeniForm.Size = new System.Drawing.Size(77, 23);
             this.btnYeniForm.TabIndex = 4;
             this.btnYeniForm.Text = "YeniForm";
             this.btnYeniForm.UseVisualStyleBackColor = true;
@@ -85,14 +90,16 @@
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(276, 261);
+            this.ClientSize = new System.Drawing.Size(368, 321);
             this.Controls.Add(this.btnYeniForm);
             this.Controls.Add(this._pbPaletteImage);
             this.Controls.Add(this._cmbPalette);
             this.Controls.Add(this._labTemp);
             this.Controls.Add(this._btnForceShutter);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMain";
             this.Text = "irDirectBinding Example";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
