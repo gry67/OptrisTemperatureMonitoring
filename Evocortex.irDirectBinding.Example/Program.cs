@@ -13,7 +13,7 @@ namespace Evocortex.irDirectBinding.Example {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+            Application.Run(new YeniForm());
         }
     }
 }

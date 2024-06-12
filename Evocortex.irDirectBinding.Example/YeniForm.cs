@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
@@ -17,7 +18,10 @@ namespace Evocortex.irDirectBinding.Example
 {
     public partial class YeniForm : Form
     {
-        public FormMain mainForm;
+        //IR Camera
+        public IrDirectInterface _irDirectInterface;
+        public ThermalPaletteImage termalGoruntu;
+
         public bool control = false;
         public PaintEventArgs paintEventArgs;
         public int CircleCount { get; set; }
@@ -31,8 +35,10 @@ namespace Evocortex.irDirectBinding.Example
         public YeniForm()
         {
             InitializeComponent();
-
         }
+
+
+
 
 
         //Metotlar
@@ -46,8 +52,6 @@ namespace Evocortex.irDirectBinding.Example
 
         public int KoordinatOranlama(int mouseX, int mouseY)
         {
-
-
             int kacinciSutun = 0;
             int kacinciSatir = 0;
 
@@ -60,7 +64,7 @@ namespace Evocortex.irDirectBinding.Example
                 kacinciSatir++;
             }
 
-            return (mainForm.termalGoruntu.ThermalImage[kacinciSutun, kacinciSatir]- 1000) / 10;
+            return (termalGoruntu.ThermalImage[kacinciSutun, kacinciSatir]- 1000) / 10;
         }
 
         public MaxTemperatureAndCoordinateDto MaxTemperatureCoordinate()
@@ -73,7 +77,7 @@ namespace Evocortex.irDirectBinding.Example
             {
                 for (int column = 0; column < 80; column++)
                 {
-                    int value = (mainForm.termalGoruntu.ThermalImage[row, column]-1000)/10;
+                    int value = (termalGoruntu.ThermalImage[row, column]-1000)/10;
                     if (value>=maxTemperature)
                     {
                         maxTemperature = value;
@@ -136,8 +140,10 @@ namespace Evocortex.irDirectBinding.Example
             }
         }
 
-
-
+        public void ImageGrabber()
+        {
+            termalGoruntu = _irDirectInterface.GetThermalPaletteImage();
+        }
 
 
 
@@ -147,11 +153,18 @@ namespace Evocortex.irDirectBinding.Example
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            pictureBox1.Image = mainForm._pbPaletteImage.Image;
+            ImageGrabber();
+            pictureBox1.Image = termalGoruntu.PaletteImage;
         }
 
         private void YeniForm_Load(object sender, EventArgs e)
         {
+            _irDirectInterface = IrDirectInterface.Instance;
+            _irDirectInterface.Connect("generic.xml");
+            termalGoruntu = _irDirectInterface.GetThermalPaletteImage();
+
+            cmbColorPalette.Items.AddRange(Enum.GetNames(typeof(OptrisColoringPalette)));
+
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             timer1.Start();
         }
@@ -204,7 +217,14 @@ namespace Evocortex.irDirectBinding.Example
 
         private void btnDursun_Click(object sender, EventArgs e)
         {
-            mainForm._irDirectInterface.TriggerShutterFlag();
+            _irDirectInterface.TriggerShutterFlag();
+        }
+
+        private void cmbColorPalette_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _irDirectInterface.SetPaletteFormat(
+                (OptrisColoringPalette)Enum.Parse(typeof(OptrisColoringPalette), (string)cmbColorPalette.SelectedItem),
+                OptrisPaletteScalingMethod.MinMax);
         }
     }
 

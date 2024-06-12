@@ -44,6 +44,7 @@ namespace Evocortex.irDirectBinding.Example
             this.button1 = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lblmaxSicaklik = new System.Windows.Forms.Label();
+            this.cmbColorPalette = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -98,7 +99,7 @@ namespace Evocortex.irDirectBinding.Example
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(328, 510);
+            this.button1.Location = new System.Drawing.Point(37, 540);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(183, 32);
             this.button1.TabIndex = 7;
@@ -127,17 +128,27 @@ namespace Evocortex.irDirectBinding.Example
             // lblmaxSicaklik
             // 
             this.lblmaxSicaklik.AutoSize = true;
-            this.lblmaxSicaklik.Location = new System.Drawing.Point(34, 510);
+            this.lblmaxSicaklik.Location = new System.Drawing.Point(245, 518);
             this.lblmaxSicaklik.Name = "lblmaxSicaklik";
             this.lblmaxSicaklik.Size = new System.Drawing.Size(121, 16);
             this.lblmaxSicaklik.TabIndex = 9;
             this.lblmaxSicaklik.Text = "En Yüksek Sıcaklık";
+            // 
+            // cmbColorPalette
+            // 
+            this.cmbColorPalette.FormattingEnabled = true;
+            this.cmbColorPalette.Location = new System.Drawing.Point(37, 510);
+            this.cmbColorPalette.Name = "cmbColorPalette";
+            this.cmbColorPalette.Size = new System.Drawing.Size(183, 24);
+            this.cmbColorPalette.TabIndex = 10;
+            this.cmbColorPalette.SelectedIndexChanged += new System.EventHandler(this.cmbColorPalette_SelectedIndexChanged);
             // 
             // YeniForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.ClientSize = new System.Drawing.Size(1364, 700);
+            this.Controls.Add(this.cmbColorPalette);
             this.Controls.Add(this.lblmaxSicaklik);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.button1);
@@ -166,5 +177,6 @@ namespace Evocortex.irDirectBinding.Example
         private Button button1;
         private Chart chart1;
         private Label lblmaxSicaklik;
+        private ComboBox cmbColorPalette;
     }
 }

@@ -108,10 +108,6 @@ namespace Evocortex.irDirectBinding.Example {
      
         private void btnYeniForm_Click(object sender, EventArgs e)
         {
-            var yeniForm = new YeniForm();
-
-            yeniForm.mainForm = this;
-            yeniForm.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
