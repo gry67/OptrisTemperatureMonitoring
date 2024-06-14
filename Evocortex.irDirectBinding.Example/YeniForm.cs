@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -23,13 +25,14 @@ namespace Evocortex.irDirectBinding.Example
         public IrDirectInterface _irDirectInterface;
         public ThermalPaletteImage termalGoruntu;
 
+        string filePath = Path.Combine(@"C:\\Users\\Güray\\Desktop\\optris form uygulaması", "metalworm icon.jpg");
+
         public bool control = false;
         public PaintEventArgs paintEventArgs;
         public int CircleCount { get; set; }
 
         //Seri eklemek için
-        public Point[] arr = new Point[100];
-        public int i = 0;
+        List<Point> points = new List<Point>();
         public bool per = false;
         Pen yesilKare = new Pen(Color.Green, 5);
 
@@ -105,14 +108,14 @@ namespace Evocortex.irDirectBinding.Example
         {
             //eğer tıkladığım  yerde bir circle varsa o circle'ı array'dan çıkar
             bool isDeleted = false;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i].X + 20 >= e.X && e.X >= arr[i].X && arr[i].Y+20 >= e.Y && e.Y >= arr[i].Y)
-                {
-                    arr[i].X = 0;
-                    arr[i].Y = 0;
-                    isDeleted = true;
 
+            for (int i = 0; i < points.Count(); i++)
+            {
+                if (points[i].X + 20 >= e.X && e.X >= points[i].X && points[i].Y + 20 >= e.Y && e.Y >= points[i].Y)
+                {
+                    points.Remove(points[i]);
+                    CircleCount--;
+                    isDeleted = true;
                     chart1.Series.RemoveAt(i);
                     break;
                 }
@@ -120,18 +123,16 @@ namespace Evocortex.irDirectBinding.Example
 
             if (!isDeleted)
             {
-                arr[i] = e.Location;
-                per = true;
+                points.Add(e.Location);
                 ++CircleCount;
                 AddSeries();
-                ++i;
             }
-            isDeleted = true;
+            //isDeleted = false; //true idi false yaptım
         }
 
         public void AddLocationManual(int x, int y)
         {
-            arr[i] = new Point(x, y);
+            points.Add(new Point(x, y));
             per = true;
             CircleCount++;
 
@@ -139,7 +140,6 @@ namespace Evocortex.irDirectBinding.Example
             {
                 AddSeries();
             }
-            ++i;
         }
 
         public void AddHottestPointToChartSeries1(MaxTemperatureAndCoordinateDto data)
@@ -150,16 +150,16 @@ namespace Evocortex.irDirectBinding.Example
 
         public void AddDataToChartSeries()
         {
-            for (int i = 1; i <= CircleCount; i++)
+            for (int i = 0; i < points.Count; i++) //1'i 0 yaptım
             {
-                var sicaklik = KoordinatOranlama(Convert.ToInt32(arr[i].X), Convert.ToInt32(arr[i].Y));
-                chart1.Series[i].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik.ToString());
+                var sicaklik = KoordinatOranlama(Convert.ToInt32(points[i].X), Convert.ToInt32(points[i].Y));
+                chart1.Series[i+1].Points.AddXY(DateTime.Now.ToString("hh:mm:ss"), sicaklik.ToString());
             }
         }
 
         public void DrawEllipseAtCoordinates(Graphics g, Pen pen)
         {
-            foreach (var item in arr.Where(x => x.Y != 0 && x.X != 0).ToList())
+            foreach (var item in points.Where(x => x.Y != 0 && x.X != 0).ToList())
             {
                 g.DrawEllipse(pen, item.X, item.Y, 20, 20);
             }
@@ -184,6 +184,8 @@ namespace Evocortex.irDirectBinding.Example
 
         private void YeniForm_Load(object sender, EventArgs e)
         {
+            iconPicBox.Image = System.Drawing.Image.FromFile(filePath);
+            iconPicBox.SizeMode = PictureBoxSizeMode.StretchImage;
             _irDirectInterface = IrDirectInterface.Instance;
             _irDirectInterface.Connect("generic.xml");
             termalGoruntu = _irDirectInterface.GetThermalPaletteImage();
@@ -225,14 +227,14 @@ namespace Evocortex.irDirectBinding.Example
 
             g.DrawRectangle(yesilKare, nokta.X, nokta.Y, 15, 15);
 
-            if (per)
+            if (CircleCount > 0)
             {
                 DrawEllipseAtCoordinates(g, pen);
             }
 
 
             //arr'deki koordinatları alır 80x80'e oranlar ve veri girişi yapar
-            if (per)
+            if (CircleCount > 0)
             {
                 AddDataToChartSeries();
             }

@@ -48,13 +48,15 @@ namespace Evocortex.irDirectBinding.Example
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.ıconButton2 = new FontAwesome.Sharp.IconButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.ıconButton2 = new FontAwesome.Sharp.IconButton();
+            this.iconPicBox = new FontAwesome.Sharp.IconPictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconPicBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -106,9 +108,9 @@ namespace Evocortex.irDirectBinding.Example
             this.ıconButton1.IconColor = System.Drawing.Color.White;
             this.ıconButton1.IconFont = FontAwesome.Sharp.IconFont.Solid;
             this.ıconButton1.IconSize = 35;
-            this.ıconButton1.Location = new System.Drawing.Point(1336, 8);
+            this.ıconButton1.Location = new System.Drawing.Point(1250, 7);
             this.ıconButton1.Name = "ıconButton1";
-            this.ıconButton1.Size = new System.Drawing.Size(45, 31);
+            this.ıconButton1.Size = new System.Drawing.Size(33, 28);
             this.ıconButton1.TabIndex = 5;
             this.ıconButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.ıconButton1.UseVisualStyleBackColor = true;
@@ -122,7 +124,7 @@ namespace Evocortex.irDirectBinding.Example
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Montserrat", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(198)))), ((int)(((byte)(200)))));
-            this.button1.Location = new System.Drawing.Point(352, 639);
+            this.button1.Location = new System.Drawing.Point(346, 639);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(183, 32);
             this.button1.TabIndex = 7;
@@ -155,7 +157,7 @@ namespace Evocortex.irDirectBinding.Example
             legend1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(39)))), ((int)(((byte)(49)))));
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(564, 61);
+            this.chart1.Location = new System.Drawing.Point(549, 61);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -184,7 +186,7 @@ namespace Evocortex.irDirectBinding.Example
             this.cmbColorPalette.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbColorPalette.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(198)))), ((int)(((byte)(200)))));
             this.cmbColorPalette.FormattingEnabled = true;
-            this.cmbColorPalette.Location = new System.Drawing.Point(25, 645);
+            this.cmbColorPalette.Location = new System.Drawing.Point(25, 639);
             this.cmbColorPalette.Name = "cmbColorPalette";
             this.cmbColorPalette.Size = new System.Drawing.Size(183, 26);
             this.cmbColorPalette.TabIndex = 10;
@@ -212,14 +214,27 @@ namespace Evocortex.irDirectBinding.Example
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.Black;
+            this.panel3.Controls.Add(this.iconPicBox);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.ıconButton2);
             this.panel3.Controls.Add(this.ıconButton1);
-            this.panel3.Location = new System.Drawing.Point(0, -5);
+            this.panel3.Location = new System.Drawing.Point(0, -2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1381, 40);
+            this.panel3.Size = new System.Drawing.Size(1358, 37);
             this.panel3.TabIndex = 13;
             this.panel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel3_MouseDown);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(44)))), ((int)(((byte)(36)))));
+            this.label1.Location = new System.Drawing.Point(50, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(114, 24);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "MetalWorm";
             // 
             // ıconButton2
             // 
@@ -230,30 +245,31 @@ namespace Evocortex.irDirectBinding.Example
             this.ıconButton2.IconColor = System.Drawing.Color.White;
             this.ıconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.ıconButton2.IconSize = 35;
-            this.ıconButton2.Location = new System.Drawing.Point(1311, 12);
+            this.ıconButton2.Location = new System.Drawing.Point(1211, 7);
             this.ıconButton2.Name = "ıconButton2";
-            this.ıconButton2.Size = new System.Drawing.Size(29, 23);
+            this.ıconButton2.Size = new System.Drawing.Size(33, 28);
             this.ıconButton2.TabIndex = 14;
             this.ıconButton2.UseVisualStyleBackColor = true;
             this.ıconButton2.Click += new System.EventHandler(this.ıconButton2_Click);
             // 
-            // label1
+            // iconPicBox
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Montserrat", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(44)))), ((int)(((byte)(36)))));
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(114, 24);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "MetalWorm";
+            this.iconPicBox.BackColor = System.Drawing.Color.Transparent;
+            this.iconPicBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.iconPicBox.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.iconPicBox.IconColor = System.Drawing.SystemColors.ControlText;
+            this.iconPicBox.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconPicBox.Location = new System.Drawing.Point(12, 0);
+            this.iconPicBox.Name = "iconPicBox";
+            this.iconPicBox.Size = new System.Drawing.Size(32, 37);
+            this.iconPicBox.TabIndex = 14;
+            this.iconPicBox.TabStop = false;
             // 
             // MetalWorm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(39)))));
-            this.ClientSize = new System.Drawing.Size(1381, 751);
+            this.ClientSize = new System.Drawing.Size(1297, 751);
             this.Controls.Add(this.lblSicaklik);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnDursun);
@@ -276,6 +292,7 @@ namespace Evocortex.irDirectBinding.Example
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconPicBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,5 +314,6 @@ namespace Evocortex.irDirectBinding.Example
         private Panel panel3;
         private FontAwesome.Sharp.IconButton ıconButton2;
         private Label label1;
+        private FontAwesome.Sharp.IconPictureBox iconPicBox;
     }
 }

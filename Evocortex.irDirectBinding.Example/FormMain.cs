@@ -48,7 +48,7 @@ namespace Evocortex.irDirectBinding.Example {
                 ThermalPaletteImage images = _irDirectInterface.GetThermalPaletteImage();
                 
                 termalGoruntu = images;
-               
+
 
                 //calculate min/max Temperature
                 //Warning 
