@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -16,7 +17,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Evocortex.irDirectBinding.Example
 {
-    public partial class YeniForm : Form
+    public partial class MetalWorm : Form
     {
         //IR Camera
         public IrDirectInterface _irDirectInterface;
@@ -25,20 +26,25 @@ namespace Evocortex.irDirectBinding.Example
         public bool control = false;
         public PaintEventArgs paintEventArgs;
         public int CircleCount { get; set; }
-        
+
         //Seri eklemek için
         public Point[] arr = new Point[100];
         public int i = 0;
         public bool per = false;
         Pen yesilKare = new Pen(Color.Green, 5);
 
-        public YeniForm()
+
+        DateTime LoadTime;
+        DateTime EndTime;
+
+        public MetalWorm()
         {
             InitializeComponent();
         }
 
 
-
+        // loadl start time + 10 saniye end time
+        //
 
 
         //Metotlar
@@ -55,16 +61,16 @@ namespace Evocortex.irDirectBinding.Example
             int kacinciSutun = 0;
             int kacinciSatir = 0;
 
-            for (int i = 0; i <= mouseX;i+=6)
+            for (int i = 0; i <= mouseX; i += 6)
             {
                 kacinciSutun++;
             }
-            for (int i = 0; i <= mouseY;i+=6)
+            for (int i = 0; i <= mouseY; i += 6)
             {
                 kacinciSatir++;
             }
 
-            return (termalGoruntu.ThermalImage[kacinciSutun, kacinciSatir]- 1000) / 10;
+            return (termalGoruntu.ThermalImage[kacinciSutun, kacinciSatir] - 1000) / 10;
         }
 
         public MaxTemperatureAndCoordinateDto MaxTemperatureCoordinate()
@@ -77,8 +83,8 @@ namespace Evocortex.irDirectBinding.Example
             {
                 for (int column = 0; column < 80; column++)
                 {
-                    int value = (termalGoruntu.ThermalImage[row, column]-1000)/10;
-                    if (value>=maxTemperature)
+                    int value = (termalGoruntu.ThermalImage[row, column] - 1000) / 10;
+                    if (value >= maxTemperature)
                     {
                         maxTemperature = value;
                         lastRow = row;
@@ -90,18 +96,37 @@ namespace Evocortex.irDirectBinding.Example
             double pixelsPerUnitX = (double)pictureBox1.Width / 80;
             double pixelsPerUnitY = (double)pictureBox1.Height / 80;
 
-            int yeniX = (int)(lastColumn * pixelsPerUnitX); 
+            int yeniX = (int)(lastColumn * pixelsPerUnitX);
             int yeniY = (int)(lastRow * pixelsPerUnitY);
             return new MaxTemperatureAndCoordinateDto(maxTemperature, new Point(yeniX, yeniY));
         }
 
         public void AddLocation(MouseEventArgs e)
         {
-            arr[i] = e.Location;
-            per = true;
-            ++CircleCount;
-            AddSeries();
-            ++i;
+            //eğer tıkladığım  yerde bir circle varsa o circle'ı array'dan çıkar
+            bool isDeleted = false;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i].X + 20 >= e.X && e.X >= arr[i].X && arr[i].Y+20 >= e.Y && e.Y >= arr[i].Y)
+                {
+                    arr[i].X = 0;
+                    arr[i].Y = 0;
+                    isDeleted = true;
+
+                    chart1.Series.RemoveAt(i);
+                    break;
+                }
+            }
+
+            if (!isDeleted)
+            {
+                arr[i] = e.Location;
+                per = true;
+                ++CircleCount;
+                AddSeries();
+                ++i;
+            }
+            isDeleted = true;
         }
 
         public void AddLocationManual(int x, int y)
@@ -163,6 +188,9 @@ namespace Evocortex.irDirectBinding.Example
             _irDirectInterface.Connect("generic.xml");
             termalGoruntu = _irDirectInterface.GetThermalPaletteImage();
 
+            LoadTime = DateTime.Now;
+            EndTime = LoadTime.AddSeconds(5);
+
             cmbColorPalette.Items.AddRange(Enum.GetNames(typeof(OptrisColoringPalette)));
 
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -172,18 +200,21 @@ namespace Evocortex.irDirectBinding.Example
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             var sicaklik = KoordinatOranlama(e.X, e.Y);
-            lblSicaklik.Text = $"Sıcaklık:{sicaklik}";
+            lblSicaklik.Text = $"Mouse Noktası Sıcaklığı: {sicaklik}";
         }
-        
+
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             AddLocation(e);
         }
 
-        
+
 
         public void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            if (DateTime.Now < EndTime)
+                return;
+
             Graphics g = e.Graphics;
             Pen pen = new Pen(BackColor, 2);
 
@@ -191,12 +222,12 @@ namespace Evocortex.irDirectBinding.Example
             Point nokta = data.point;
 
             AddHottestPointToChartSeries1(data);
-            
+
             g.DrawRectangle(yesilKare, nokta.X, nokta.Y, 15, 15);
-            
+
             if (per)
             {
-                DrawEllipseAtCoordinates(g,pen);
+                DrawEllipseAtCoordinates(g, pen);
             }
 
 
@@ -207,7 +238,7 @@ namespace Evocortex.irDirectBinding.Example
             }
             paintEventArgs = e;
         }
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -225,7 +256,34 @@ namespace Evocortex.irDirectBinding.Example
             _irDirectInterface.SetPaletteFormat(
                 (OptrisColoringPalette)Enum.Parse(typeof(OptrisColoringPalette), (string)cmbColorPalette.SelectedItem),
                 OptrisPaletteScalingMethod.MinMax);
+
+            lblmaxSicaklik.Focus();
         }
+
+        private void ıconButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ıconButton2_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        #region Drag Drop
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd,
+                         int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+        private void panel3_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+        }
+        #endregion
     }
 
 
