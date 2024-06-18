@@ -48,9 +48,9 @@ namespace Evocortex.irDirectBinding.Example
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.iconPicBox = new FontAwesome.Sharp.IconPictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ıconButton2 = new FontAwesome.Sharp.IconButton();
-            this.iconPicBox = new FontAwesome.Sharp.IconPictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -220,9 +220,23 @@ namespace Evocortex.irDirectBinding.Example
             this.panel3.Controls.Add(this.ıconButton1);
             this.panel3.Location = new System.Drawing.Point(0, -2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1358, 37);
+            this.panel3.Size = new System.Drawing.Size(1301, 37);
             this.panel3.TabIndex = 13;
             this.panel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel3_MouseDown);
+            // 
+            // iconPicBox
+            // 
+            this.iconPicBox.BackColor = System.Drawing.Color.Transparent;
+            this.iconPicBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.iconPicBox.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.iconPicBox.IconColor = System.Drawing.SystemColors.ControlText;
+            this.iconPicBox.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconPicBox.IconSize = 28;
+            this.iconPicBox.Location = new System.Drawing.Point(12, 6);
+            this.iconPicBox.Name = "iconPicBox";
+            this.iconPicBox.Size = new System.Drawing.Size(32, 28);
+            this.iconPicBox.TabIndex = 14;
+            this.iconPicBox.TabStop = false;
             // 
             // label1
             // 
@@ -251,19 +265,6 @@ namespace Evocortex.irDirectBinding.Example
             this.ıconButton2.TabIndex = 14;
             this.ıconButton2.UseVisualStyleBackColor = true;
             this.ıconButton2.Click += new System.EventHandler(this.ıconButton2_Click);
-            // 
-            // iconPicBox
-            // 
-            this.iconPicBox.BackColor = System.Drawing.Color.Transparent;
-            this.iconPicBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.iconPicBox.IconChar = FontAwesome.Sharp.IconChar.None;
-            this.iconPicBox.IconColor = System.Drawing.SystemColors.ControlText;
-            this.iconPicBox.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconPicBox.Location = new System.Drawing.Point(12, 0);
-            this.iconPicBox.Name = "iconPicBox";
-            this.iconPicBox.Size = new System.Drawing.Size(32, 37);
-            this.iconPicBox.TabIndex = 14;
-            this.iconPicBox.TabStop = false;
             // 
             // MetalWorm
             // 
@@ -300,7 +301,7 @@ namespace Evocortex.irDirectBinding.Example
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnDursun;
         private Label lblSicaklik;

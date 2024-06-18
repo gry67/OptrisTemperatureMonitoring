@@ -27,7 +27,7 @@ namespace Evocortex.irDirectBinding.Example
             int textX = Convert.ToInt32(txtX.Text);
             int textY = Convert.ToInt32(txtY.Text);
 
-            if (textX<yeniForm.Size.Width && textY< yeniForm.Size.Height)
+            if (textX<yeniForm.pictureBox1.Width && textY< yeniForm.pictureBox1.Height)
             {
                 yeniForm.AddLocationManual(textX, textY);
                 Close();

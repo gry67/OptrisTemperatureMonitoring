@@ -33,7 +33,6 @@ namespace Evocortex.irDirectBinding.Example
 
         //Seri eklemek için
         List<Point> points = new List<Point>();
-        public bool per = false;
         Pen yesilKare = new Pen(Color.Green, 5);
 
 
@@ -133,13 +132,8 @@ namespace Evocortex.irDirectBinding.Example
         public void AddLocationManual(int x, int y)
         {
             points.Add(new Point(x, y));
-            per = true;
             CircleCount++;
-
-            if (CircleCount != 1)
-            {
-                AddSeries();
-            }
+            AddSeries();
         }
 
         public void AddHottestPointToChartSeries1(MaxTemperatureAndCoordinateDto data)
